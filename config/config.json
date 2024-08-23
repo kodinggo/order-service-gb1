@@ -1,0 +1,12 @@
+{
+    "env" : "development",
+    "port" : "3306",
+    "mysql" : {
+        "host" : "localhost",
+        "database" : "kodinggoecommerce",
+        "user" : "root",
+        "password" : ""
+    },
+    "jwt_secret" : "k0dingg0"
+    
+}

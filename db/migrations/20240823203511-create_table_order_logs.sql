@@ -1,0 +1,14 @@
+
+-- +migrate Up
+CREATE TABLE order_logs (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT,
+    status VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL DEFAULT NULL
+);
+
+
+-- +migrate Down
+DROP TABLE order_logs;
