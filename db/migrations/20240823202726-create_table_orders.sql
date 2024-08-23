@@ -4,7 +4,7 @@ CREATE TABLE orders (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id INT  NOT NULL,
     invoice_no VARCHAR(255),
-    grand_total FLOAT DEFAULT 0.0,
+    grand_total FLOAT DEFAULT 0.0 NOT NULL,
     status ENUM('waiting_for_payment', 'delivery', 'complete', 'cancel'),
     shipping_address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
