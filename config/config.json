@@ -2,6 +2,7 @@
     "env" : "development",
     "port" : "3306",
     "mysql" : {
+        "driver" : "mysql",
         "host" : "localhost",
         "database" : "kodinggoecommerce",
         "user" : "root",
