@@ -26,6 +26,7 @@ func (s *CartsServices) AddTocarts(input model.CartsInput) (model.CartsRespone, 
 	respone, err := s.cartsRepo.AddToCarts(carts)
 	if err != nil {
 		log.Error(err)
+		return model.CartsRespone{}, err
 	}
 	return respone, nil
 

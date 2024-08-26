@@ -9,18 +9,6 @@ import (
 )
 
 func ConfigDB() *gorm.DB {
-
-	// dbDriver := "mysql"
-	// dbName := "test"
-	// dbUser := "user"
-	// dbPassword := "your password"
-	// dbTcp := "@tcp(127.0.0.1:3306)/"
-	// gormDb, err := gorm.Open(dbDriver, dbUser+":"+dbPassword+dbTcp+dbName+"?charset=utf8&parseTime=True")
-	// if err != nil {
-	// 	fmt.Println("gorm Db connection ", err)
-	// 	return nil, err
-	// }
-
 	// Load the database configuration from Viper
 	host := viper.GetString("mysql.host")
 	port := viper.GetString("port")
@@ -30,12 +18,6 @@ func ConfigDB() *gorm.DB {
 
 	//connection string with gorm
 	dsn := user + ":" + password + "@tcp(" + host + ":" + port + ")/" + dbname + "?charset=utf8mb4&parseTime=True&loc=Local"
-
-	// // Open a connection to the database
-	// gormdb, err := gorm.Open(dbdbDriver, user+":"+password+"@tcp(" + host + ":" + port + ")/"+dbname+"?charset=utf8&parseTime=True")
-	// if err != nil {
-	// 	log.Fatal("Failed to connect to database:", err)
-	// }
 
 	// Open a connection to the database
 	gormdb, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})

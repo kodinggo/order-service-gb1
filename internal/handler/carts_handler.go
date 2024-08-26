@@ -6,13 +6,14 @@ import (
 
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
+	"github.com/sirupsen/logrus"
 )
 
 type CartsHandler struct {
 	CartsServices model.ICartsServices
 }
 
-type NewStoryHandler struct {
+type NewCartsHandler struct {
 	CartsServices model.ICartsServices
 }
 
@@ -29,21 +30,30 @@ func NewCartsRepository(e *echo.Group, repo model.ICartsServices) {
 func (s *CartsHandler) AddToCarts(c echo.Context) error {
 	var input model.CartsInput
 
+	log := logrus.WithFields(logrus.Fields{
+		"carts": input,
+	})
+
 	err := c.Bind(&input)
 	if err != nil {
+		log.Error(err)
 		return c.JSON(http.StatusBadRequest, Respone{
 			Status:  http.StatusBadRequest,
-			Massage: err.Error(),
+			Massage: "invalid request body",
 			Data:    nil,
 		})
 	}
+
 	responeService, errServices := s.CartsServices.AddTocarts(input)
 	if errServices != nil {
-		return c.JSON(http.StatusBadRequest, Respone{
-			Status:  http.StatusBadRequest,
-			Massage: errServices.Error(),
+		log.Error(errServices)
+
+		return c.JSON(http.StatusInternalServerError, Respone{
+			Status:  http.StatusInternalServerError,
+			Massage: "internal server error",
 			Data:    nil,
 		})
+
 	}
 	return c.JSON(http.StatusOK, Respone{
 		Status:  http.StatusOK,
