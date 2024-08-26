@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"order-service-gb1/internal/model"
 	"time"
 
@@ -18,11 +19,13 @@ func NewCartsRepository(db *gorm.DB) *CartsRepository {
 	}
 }
 
-func (r *CartsRepository) AddToCarts(input model.Carts) (model.CartsRespone, error) {
+func (r *CartsRepository) AddToCarts(ctx context.Context, input model.Carts) (model.CartsRespone, error) {
 	log := logrus.WithFields(logrus.Fields{
 		"carts": input,
 	})
-	err := r.db.Select("user_id", "product_id").Create(&input).Error
+	query := r.db.WithContext(ctx)
+
+	err := query.Select("user_id", "product_id").Create(&input).Error
 	if err != nil {
 		log.Error(err)
 		return model.CartsRespone{}, err

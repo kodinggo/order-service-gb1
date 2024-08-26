@@ -29,10 +29,7 @@ func NewCartsRepository(e *echo.Group, repo model.ICartsServices) {
 
 func (s *CartsHandler) AddToCarts(c echo.Context) error {
 	var input model.CartsInput
-
-	log := logrus.WithFields(logrus.Fields{
-		"carts": input,
-	})
+	log := logrus.WithContext(c.Request().Context())
 
 	err := c.Bind(&input)
 	if err != nil {
@@ -44,7 +41,7 @@ func (s *CartsHandler) AddToCarts(c echo.Context) error {
 		})
 	}
 
-	responeService, errServices := s.CartsServices.AddTocarts(input)
+	responeService, errServices := s.CartsServices.AddTocarts(c.Request().Context(), input)
 	if errServices != nil {
 		log.Error(errServices)
 
