@@ -23,9 +23,7 @@ func (r *CartsRepository) AddToCarts(ctx context.Context, input model.Carts) (mo
 	log := logrus.WithFields(logrus.Fields{
 		"carts": input,
 	})
-	query := r.db.WithContext(ctx)
-
-	err := query.Select("user_id", "product_id").Create(&input).Error
+	err := r.db.WithContext(ctx).Select("user_id", "product_id").Create(&input).Error
 	if err != nil {
 		log.Error(err)
 		return model.CartsRespone{}, err

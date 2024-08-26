@@ -17,12 +17,12 @@ type ICartsServices interface {
 }
 
 type Carts struct {
-	ID        int            `json:"id" gorm:"primaryKey"`
+	ID        int            `json:"id"`
 	UserID    int            `json:"user_id"`
 	ProductID int            `json:"product_id"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
-	DeletedAt gorm.DeletedAt `gorm:"index, omitempty"`
+	DeletedAt gorm.DeletedAt `json:"deteted_at"`
 }
 
 type CartsInput struct {
@@ -36,9 +36,10 @@ type CartsRespone struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func (c Carts) Validator() error {
+func (c CartsInput) Validator() error {
 	if c.UserID == 0 || c.ProductID == 0 {
-		return errors.New("invalid request body , user_id or product_id cannot be empty")
+		return errors.New("invalid request body ,user_id or product_id cannot be empty")
 	}
+
 	return nil
 }
