@@ -53,5 +53,10 @@ func (h *cartsHandler) Routes(route *echo.Echo, auth echo.MiddlewareFunc) {
 
 	carts.POST("", h.AddToCarts)
 	carts.GET("", h.FindAllCarts)
+}
 
+type response struct {
+	Status  int         `json:"status"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data,omitempty"`
 }
