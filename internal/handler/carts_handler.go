@@ -24,6 +24,7 @@ func NewCartsRepository(e *echo.Group, repo model.ICartsServices) {
 	//carts.Use(echojwt.WithConfig(jwtConfig()))
 
 	carts.POST("/addtocarts", handler.AddToCarts)
+	carts.GET("/findall", handler.FindAllCarts)
 }
 
 func (s *CartsHandler) AddToCarts(c echo.Context) error {
@@ -61,5 +62,20 @@ func (s *CartsHandler) AddToCarts(c echo.Context) error {
 		Status:  http.StatusOK,
 		Message: "success",
 		Data:    responeService,
+	})
+}
+
+func (s *CartsHandler) FindAllCarts(c echo.Context) error {
+	log := logrus.WithContext(c.Request().Context())
+
+	carts, err := s.CartsServices.FindAllCarts(c.Request().Context())
+	if err != nil {
+		log.Error(err)
+	}
+
+	return c.JSON(http.StatusOK, Respone{
+		Status:  http.StatusOK,
+		Message: "success",
+		Data:    carts,
 	})
 }

@@ -35,3 +35,16 @@ func (r *CartsRepository) AddToCarts(ctx context.Context, input model.Carts) (mo
 		CreatedAt: time.Now(),
 	}, nil
 }
+
+func (r *CartsRepository) FindAllCarts(ctx context.Context) ([]model.Carts, error) {
+	log := logrus.WithFields(logrus.Fields{
+		"carts": ctx,
+	})
+	var carts []model.Carts
+	err := r.db.WithContext(ctx).Find(&carts).Error
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+	return carts, nil
+}
