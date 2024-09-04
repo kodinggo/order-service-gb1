@@ -32,3 +32,16 @@ func (s *CartsServices) AddTocarts(ctx context.Context, input model.CartsInput) 
 	return respone, nil
 
 }
+
+func (s *CartsServices) FindAllCarts(ctx context.Context) ([]model.Carts, error) {
+	log := logrus.WithFields(logrus.Fields{
+		"ctx": ctx,
+	})
+	var carts []model.Carts
+	carts, err := s.cartsRepo.FindAllCarts(ctx)
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+	return carts, nil
+}

@@ -10,10 +10,12 @@ import (
 
 type ICartsRepository interface {
 	AddToCarts(ctx context.Context, input Carts) (CartsRespone, error)
+	FindAllCarts(ctx context.Context) ([]Carts, error)
 }
 
 type ICartsServices interface {
 	AddTocarts(ctx context.Context, input CartsInput) (CartsRespone, error)
+	FindAllCarts(ctx context.Context) ([]Carts, error)
 }
 
 type Carts struct {
