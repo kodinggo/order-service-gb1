@@ -8,26 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type CartsHandler struct {
-	CartsServices model.ICartsServices
-}
-
-type NewCartsHandler struct {
-	CartsServices model.ICartsServices
-}
-
-func NewCartsRepository(e *echo.Group, repo model.ICartsServices) {
-	handler := &CartsHandler{
-		CartsServices: repo,
-	}
-	carts := e.Group("/carts")
-	//carts.Use(echojwt.WithConfig(jwtConfig()))
-
-	carts.POST("/addtocarts", handler.AddToCarts)
-	carts.GET("/findall", handler.FindAllCarts)
-}
-
-func (s *CartsHandler) AddToCarts(c echo.Context) error {
+func (s *cartsHandler) AddToCarts(c echo.Context) error {
 	carts := model.CartsInput{}
 	log := logrus.WithContext(c.Request().Context())
 
@@ -47,7 +28,7 @@ func (s *CartsHandler) AddToCarts(c echo.Context) error {
 		})
 	}
 
-	responeService, err := s.CartsServices.AddTocarts(c.Request().Context(), carts)
+	responeService, err := s.cartsServices.AddTocarts(c.Request().Context(), carts)
 	if err != nil {
 		log.Error(err)
 
@@ -65,10 +46,10 @@ func (s *CartsHandler) AddToCarts(c echo.Context) error {
 	})
 }
 
-func (s *CartsHandler) FindAllCarts(c echo.Context) error {
+func (s *cartsHandler) FindAllCarts(c echo.Context) error {
 	log := logrus.WithContext(c.Request().Context())
 
-	carts, err := s.CartsServices.FindAllCarts(c.Request().Context())
+	carts, err := s.cartsServices.FindAllCarts(c.Request().Context())
 	if err != nil {
 		log.Error(err)
 	}
