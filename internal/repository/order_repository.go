@@ -13,7 +13,9 @@ type orderRepository struct {
 }
 
 func NewOrderRepository(db *gorm.DB) model.OrderRepository {
-	return &orderRepository{db: db}
+	return &orderRepository{
+		db: db,
+	}
 }
 
 func (r *orderRepository) Create(ctx context.Context, order model.Order) error {

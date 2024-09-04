@@ -8,7 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (s *cartsHandler) AddToCarts(c echo.Context) error {
+func (s *handler) AddToCarts(c echo.Context) error {
 	carts := model.CartsInput{}
 	log := logrus.WithContext(c.Request().Context())
 
@@ -46,7 +46,7 @@ func (s *cartsHandler) AddToCarts(c echo.Context) error {
 	})
 }
 
-func (s *cartsHandler) FindAllCarts(c echo.Context) error {
+func (s *handler) FindAllCarts(c echo.Context) error {
 	log := logrus.WithContext(c.Request().Context())
 
 	carts, err := s.cartsServices.FindAllCarts(c.Request().Context())

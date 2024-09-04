@@ -26,33 +26,41 @@ func jwtConfig() echojwt.Config {
 	}
 }
 
-type cartsHandler struct {
+type handler struct {
 	authClient    auth.JWTValidatorClient
 	cartsServices model.ICartsServices
+	orderService  model.OrderService
 }
 
-func NewcartsHandler() *cartsHandler {
-	return new(cartsHandler)
+func NewHandler() *handler {
+	return new(handler)
 }
 
-func (h *cartsHandler) RegisterCartsServices(carts model.ICartsServices) {
+func (h *handler) RegisterCartsServices(carts model.ICartsServices) {
 	h.cartsServices = carts
 }
 
-func (h *cartsHandler) RegisterAuthClient(auth auth.JWTValidatorClient) {
+func (h *handler) RegisterAuthClient(auth auth.JWTValidatorClient) {
 	h.authClient = auth
 }
 
-func (h *cartsHandler) Routes(route *echo.Echo, auth echo.MiddlewareFunc) {
+func (h *handler) RegisterOrderService(order model.OrderService) {
+	h.orderService = order
+}
+
+func (h *handler) Routes(route *echo.Echo, auth echo.MiddlewareFunc) {
 	v1 := route.Group("/api/v1")
 
 	// private routes goes here
 	routes := v1.Group("")
 	routes.Use(auth)
-	carts := routes.Group("/carts")
 
+	carts := routes.Group("/carts")
 	carts.POST("", h.AddToCarts)
 	carts.GET("", h.FindAllCarts)
+
+	orders := routes.Group("/orders")
+	orders.POST("", h.Create)
 }
 
 type response struct {

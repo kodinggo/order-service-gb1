@@ -9,21 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type orderHandler struct {
-	orderService model.OrderService
-}
-
-func NewOrderHandler(e *echo.Group, service model.OrderService) {
-	handler := &orderHandler{
-		orderService: service,
-	}
-
-	order := e.Group("/orders")
-
-	order.POST("", handler.Create)
-}
-
-func (s *orderHandler) Create(c echo.Context) error {
+func (s *handler) Create(c echo.Context) error {
 	order := model.Order{}
 
 	err := c.Bind(&order)

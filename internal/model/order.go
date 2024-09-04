@@ -2,6 +2,7 @@ package model
 
 import (
 	"context"
+	"encoding/json"
 	"time"
 
 	"gorm.io/gorm"
@@ -18,6 +19,15 @@ type Order struct {
 	UpdatedAt       time.Time      `json:"updated_at"`
 	DeletedAt       gorm.DeletedAt `json:"deleted_at,omitempty"`
 	OrderItems      []OrderItem    `json:"order_items" gorm:"foreignKey:OrderID"`
+}
+
+func (o *Order) ToJSON() []byte {
+	js, err := json.Marshal(o)
+	if err != nil {
+		return nil
+	}
+
+	return js
 }
 
 func (o *Order) SetGrandTotal() {

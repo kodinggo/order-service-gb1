@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"order-service-gb1/internal/model"
 	"order-service-gb1/internal/utils"
+	"order-service-gb1/messaging"
 	"strconv"
 	"strings"
 
@@ -17,13 +18,15 @@ type orderService struct {
 	cartRepo      model.ICartsRepository
 	orderRepo     model.OrderRepository
 	productClient productPb.ProductServiceClient
+	natsJS        messaging.JetStreamRepository
 }
 
-func NewOrderService(cartRepo model.ICartsRepository, orderRepo model.OrderRepository, productCLient productPb.ProductServiceClient) model.OrderService {
+func NewOrderService(cartRepo model.ICartsRepository, orderRepo model.OrderRepository, productCLient productPb.ProductServiceClient, natsJS messaging.JetStreamRepository) model.OrderService {
 	return &orderService{
 		cartRepo:      cartRepo,
 		orderRepo:     orderRepo,
 		productClient: productCLient,
+		natsJS:        natsJS,
 	}
 }
 
@@ -128,6 +131,12 @@ func (s *orderService) Create(ctx context.Context, order model.Order) error {
 	if res.Error != "" {
 		logger.Error(res.Error)
 		return errors.New(res.Error)
+	}
+
+	err = s.natsJS.Publish(ctx, "ORDER.create", order.ToJSON())
+	if err != nil {
+		logger.Error(err)
+		return err
 	}
 
 	return nil
