@@ -11,6 +11,7 @@ import (
 type ICartsRepository interface {
 	AddToCarts(ctx context.Context, input Carts) (CartsRespone, error)
 	FindAllCarts(ctx context.Context) ([]Carts, error)
+	FindByUserID(ctx context.Context, userID int) ([]Carts, error)
 }
 
 type ICartsServices interface {

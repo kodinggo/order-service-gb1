@@ -48,3 +48,19 @@ func (r *CartsRepository) FindAllCarts(ctx context.Context) ([]model.Carts, erro
 	}
 	return carts, nil
 }
+
+func (r *CartsRepository) FindByUserID(ctx context.Context, userID int) ([]model.Carts, error) {
+	log := logrus.WithFields(logrus.Fields{
+		"user_id": userID,
+	})
+
+	var carts []model.Carts
+
+	err := r.db.WithContext(ctx).Where("user_id = ?", userID).Find(&carts).Error
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+
+	return carts, nil
+}

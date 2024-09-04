@@ -1,4 +1,0 @@
-development:
-  dialect: mysql
-  datasource: root:@tcp(localhost:3306)/kodinggoecommerce?parseTime=true
-  dir: db/migrations
