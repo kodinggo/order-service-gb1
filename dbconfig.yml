@@ -1,4 +1,0 @@
-development:
-  dialect: mysql
-  datasource: root:root@tcp(localhost:3306)/order_service?parseTime=true
-  dir: db/migrations

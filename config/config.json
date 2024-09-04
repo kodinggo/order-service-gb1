@@ -4,9 +4,9 @@
     "mysql" : {
         "driver" : "mysql",
         "host" : "localhost",
-        "database" : "order_service",
+        "database" : "kodinggoecommerce",
         "user" : "root",
-        "password" : "root"
+        "password" : ""
     },
     "jwt_secret" : "k0dingg0"
     
